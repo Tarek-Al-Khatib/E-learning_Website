@@ -1,26 +1,60 @@
 import React from "react";
+import { useEffect } from "react";
+import { useState } from "react";
 import "./css/AdminDashboard.css";
+import StudentAdmin from "./StudentAdmin";
+import InstructorAdmin from "./InstructorAdmin";
+import CourseAdmin from "./CourseAdmin";
 const AdminDashboard = () => {
+  const [section, setSection] = useState("students");
+
+  function content() {
+    if (section == "students") {
+      return <StudentAdmin />;
+    } else if (section == "instructors") {
+      return <InstructorAdmin />;
+    } else if (section == "courses") {
+      return <CourseAdmin />;
+    } else {
+      <div>
+        <h3>Welcome to the Admin Dashboard</h3>
+        <p>Select an option from the sidebar to begin managing the platform.</p>
+      </div>;
+    }
+  }
   return (
     <div className="dashboard-container">
       <div className="sidebar">
         <h2>Admin Dashboard</h2>
         <ul className="sidebar-menu">
           <li>
-            <button className="sidebar-button">Students</button>
+            <button
+              className="sidebar-button"
+              onClick={() => setSection("students")}
+            >
+              Students
+            </button>
           </li>
           <li>
-            <button className="sidebar-button">Instructors</button>
+            <button
+              className="sidebar-button"
+              onClick={() => setSection("instructors")}
+            >
+              Instructors
+            </button>
           </li>
           <li>
-            <button className="sidebar-button">Courses</button>
+            <button
+              className="sidebar-button"
+              onClick={() => setSection("courses")}
+            >
+              Courses
+            </button>
           </li>
         </ul>
       </div>
 
-      <div className="main-content">
-        <h2>Welcome to the Admin Dashboard</h2>
-      </div>
+      <div className="main-content">{content()}</div>
     </div>
   );
 };
