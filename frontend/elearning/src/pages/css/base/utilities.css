@@ -60,9 +60,17 @@
   background-color: #c0392b;
 }
 
+.form-container {
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+  justify-content: center;
+  padding: 20px;
+}
+
 .form-container input,
 .form-container select {
-  width: 40%;
+  width: 100%;
   margin-bottom: 10px;
   padding: 10px;
   border: 1px solid #ddd;
