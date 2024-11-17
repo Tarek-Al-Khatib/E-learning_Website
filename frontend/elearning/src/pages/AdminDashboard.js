@@ -15,12 +15,6 @@ const AdminDashboard = () => {
           <li>
             <button className="sidebar-button">Courses</button>
           </li>
-          <li>
-            <button className="sidebar-button">Instructor</button>
-          </li>
-          <li>
-            <button className="sidebar-button">Course</button>
-          </li>
         </ul>
       </div>
 
