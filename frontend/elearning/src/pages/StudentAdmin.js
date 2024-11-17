@@ -1,5 +1,7 @@
 import { React } from "react";
 import { useState } from "react";
+import "./css/StudentAdmin.css";
+import "./css/base/utilities.css";
 const StudentAdmin = () => {
   //mock data
   const [students, setStudents] = useState([
@@ -32,9 +34,9 @@ const StudentAdmin = () => {
   return (
     <div>
       <h3>Manage Students</h3>
-      <div className="students-container">
+      <div className="container">
         {students.map((student) => (
-          <div key={student.id} className={`student-card ${student.status}`}>
+          <div key={student.id} className={`card ${student.status}`}>
             <h4>{student.name}</h4>
             <p>Email: {student.email}</p>
             <p>Status: {student.status}</p>
