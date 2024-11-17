@@ -1,5 +1,5 @@
 import React from "react";
-
+import "./css/AdminDashboard.css";
 const AdminDashboard = () => {
   return (
     <div className="dashboard-container">
@@ -30,3 +30,5 @@ const AdminDashboard = () => {
     </div>
   );
 };
+
+export default AdminDashboard;
