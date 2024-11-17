@@ -1,5 +1,5 @@
 import { React } from "react";
-
+import { useState } from "react";
 const StudentAdmin = () => {
   //mock data
   const [students, setStudents] = useState([
@@ -22,6 +22,13 @@ const StudentAdmin = () => {
       status: "active",
     },
   ]);
+
+  const handleBan = (id) => {
+    const updatedStudents = students.map((student) =>
+      student.id == id ? { ...student, status: "banned" } : student
+    );
+    setStudents(updatedStudents);
+  };
   return (
     <div>
       <h3>Manage Students</h3>
@@ -31,8 +38,13 @@ const StudentAdmin = () => {
             <h4>{student.name}</h4>
             <p>Email: {student.email}</p>
             <p>Status: {student.status}</p>
-            {student.status === "active" && (
-              <button className="ban-button">Ban</button>
+            {student.status == "active" && (
+              <button
+                className="ban-button"
+                onClick={() => handleBan(student.id)}
+              >
+                Ban
+              </button>
             )}
           </div>
         ))}
