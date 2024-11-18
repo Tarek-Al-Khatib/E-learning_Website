@@ -47,6 +47,7 @@ const CourseAdmin = () => {
   const [formState, setFormState] = useState({
     id: null,
     name: "",
+    description: "",
     instructor: "",
     status: "active",
   });
@@ -61,11 +62,18 @@ const CourseAdmin = () => {
     const newCourse = {
       id: courses.length + 1,
       name: formState.name,
+      description: formState.description,
       instructor: formState.instructor,
       status: "active",
     };
     setCourses([...courses, newCourse]);
-    setFormState({ id: null, name: "", instructor: "", status: "active" });
+    setFormState({
+      id: null,
+      name: "",
+      description: "",
+      instructor: "",
+      status: "active",
+    });
   };
 
   const handleEdit = (id) => {
@@ -79,7 +87,13 @@ const CourseAdmin = () => {
       course.id === formState.id ? formState : course
     );
     setCourses(updatedCourses);
-    setFormState({ id: null, name: "", instructor: "", status: "active" });
+    setFormState({
+      id: null,
+      name: "",
+      description: "",
+      instructor: "",
+      status: "active",
+    });
     setIsEditing(false);
   };
 
@@ -99,6 +113,13 @@ const CourseAdmin = () => {
           name="name"
           placeholder="Course Name"
           value={formState.name}
+          onChange={handleInputChange}
+        />
+        <input
+          type="text"
+          name="description"
+          placeholder="Course Description"
+          value={formState.description}
           onChange={handleInputChange}
         />
         <select
