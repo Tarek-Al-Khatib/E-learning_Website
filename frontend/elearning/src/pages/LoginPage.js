@@ -1,9 +1,12 @@
-import { React } from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import "./css/LoginPage.css";
+
 const Register = () => {
   const [signup, setSignup] = useState(false);
+  const navigate = useNavigate();
+
   const [formState, setFormState] = useState({
     name: "",
     email: "",
@@ -11,10 +14,20 @@ const Register = () => {
     confirmPassword: "",
   });
 
+  const [loginState, setLoginState] = useState({
+    username: "",
+    password: "",
+  });
+
   const [error, setError] = useState("");
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormState({ ...formState, [name]: value });
+    if (signup) {
+      setFormState({ ...formState, [name]: value });
+    } else {
+      setLoginState({ ...loginState, [name]: value });
+    }
     setError("");
   };
 
@@ -39,12 +52,55 @@ const Register = () => {
       return;
     }
 
-    const response = axios.post("");
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/e-learning/backend/user/signup.php",
+        {
+          username: formState.name,
+          password: formState.password,
+          email: formState.email,
+        }
+      );
+
+      if (response.data.status === "success") {
+        navigate("/admin");
+      } else {
+        setError(response.data.message || "Registration failed.");
+      }
+    } catch (error) {
+      setError("Error: Unable to register.");
+      console.error(error);
+    }
   };
 
-  function handleLogin(e) {
+  const handleLogin = async (e) => {
     e.preventDefault();
-  }
+
+    if (!loginState.username || !loginState.password) {
+      setError("All fields are required.");
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/e-learning/backend/user/signin.php",
+        {
+          username: loginState.username,
+          password: loginState.password,
+        }
+      );
+
+      if (response.data.status != "error") {
+        navigate("/admin");
+      } else {
+        setError(response.data.message || "Invalid credentials.");
+      }
+    } catch (error) {
+      setError("Error: Unable to log in.");
+      console.error(error);
+    }
+  };
+
   return (
     <div className="form-container">
       <h3>{signup ? "Student Registration" : "Student Login"}</h3>
@@ -89,8 +145,21 @@ const Register = () => {
         </form>
       ) : (
         <form onSubmit={handleLogin}>
-          <input type="email" name="email" placeholder="Email Address" />
-          <input type="password" name="password" placeholder="Password" />
+          <input
+            type="username"
+            name="username"
+            placeholder="Username"
+            value={loginState.username}
+            onChange={handleInputChange}
+          />
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={loginState.password}
+            onChange={handleInputChange}
+          />
+          {error && <p className="error-message">{error}</p>}
           <button type="submit">Login</button>
           <p>
             Don't have an account?{" "}
