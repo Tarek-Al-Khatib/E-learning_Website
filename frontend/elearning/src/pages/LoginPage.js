@@ -1,5 +1,7 @@
 import { React } from "react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 const Register = () => {
   const [signup, setSignup] = useState(false);
   const [formState, setFormState] = useState({
@@ -16,7 +18,7 @@ const Register = () => {
     setError("");
   };
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
 
     if (
@@ -36,13 +38,8 @@ const Register = () => {
       setError("Password must be at least 6 characters long.");
       return;
     }
-    alert(`Student registered: ${formState.name}`);
-    setFormState({
-      name: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-    });
+
+    const response = axios.post("");
   };
 
   function handleLogin(e) {
