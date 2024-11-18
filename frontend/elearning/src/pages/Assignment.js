@@ -1,9 +1,18 @@
 import React, { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import "./css/Assignment.css";
 import "./css/base/utilities.css";
+const Assignment = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const assignment = location.state.assignment;
+  const userRole = location.state.userRole;
 
-const Assignment = ({ route }) => {
   const [submission, setSubmission] = useState(null);
-  const [comments, setComments] = useState([]);
+  const [comments, setComments] = useState([
+    { id: 1, content: "This is a public comment", isPrivate: false },
+    { id: 2, content: "This is a private comment", isPrivate: true },
+  ]);
   const [newComment, setNewComment] = useState({
     content: "",
     isPrivate: false,
@@ -27,19 +36,24 @@ const Assignment = ({ route }) => {
   };
 
   return (
-    <div className="card">
-      <h4>{assignment.title}</h4>
+    <div>
+      <button className="back-button button" onClick={() => navigate(-1)}>
+        &larr; Back
+      </button>
+
+      <h3>{assignment.title}</h3>
       <p>{assignment.description}</p>
+
       {userRole === "student" && (
         <div className="submission-container">
-          <h5>Submit Assignment</h5>
+          <h4>Submit Your Assignment</h4>
           <input type="file" onChange={handleFileChange} />
           {submission && <p>Submitted File: {submission.name}</p>}
         </div>
       )}
 
       <div className="comments-container">
-        <h5>Comments</h5>
+        <h4>Comments</h4>
         {comments.map((comment) => (
           <div
             key={comment.id}
@@ -50,6 +64,7 @@ const Assignment = ({ route }) => {
           </div>
         ))}
 
+        {/* Add a comment (for students) */}
         {userRole === "student" && (
           <div className="add-comment">
             <textarea
@@ -69,6 +84,7 @@ const Assignment = ({ route }) => {
               />
               Private Comment
             </label>
+            <br />
             <button onClick={handleAddComment}>Post Comment</button>
           </div>
         )}
