@@ -1,6 +1,6 @@
 import { React } from "react";
-
-const Regiser = () => {
+import { useState } from "react";
+const Register = () => {
   const [signup, setSignup] = useState(false);
   const [formState, setFormState] = useState({
     name: "",
@@ -44,6 +44,10 @@ const Regiser = () => {
       confirmPassword: "",
     });
   };
+
+  function handleLogin(e) {
+    e.preventDefault();
+  }
   return (
     <div className="form-container">
       <h3>{signup ? "Student Registration" : "Student Login"}</h3>
@@ -87,7 +91,7 @@ const Regiser = () => {
           </p>
         </form>
       ) : (
-        <form>
+        <form onSubmit={handleLogin}>
           <input type="email" name="email" placeholder="Email Address" />
           <input type="password" name="password" placeholder="Password" />
           <button type="submit">Login</button>
@@ -102,3 +106,5 @@ const Regiser = () => {
     </div>
   );
 };
+
+export default Register;

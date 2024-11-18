@@ -1,12 +1,14 @@
 import logo from "./logo.svg";
-import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Register from "./pages/LoginPage";
+import AdminDashboard from "./pages/AdminDashboard";
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/"></Route>
+          <Route path="/" element={<Register />}></Route>
+          <Route path="/admin" element={<AdminDashboard />}></Route>
         </Routes>
       </BrowserRouter>
     </div>
