@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import Assignment from "./Assignment";
 import "./css/base/utilities.css";
-
+import { useNavigate } from "react-router-dom";
 const Assignments = () => {
-  const [userRole] = useState("student");
+  const navigate = useNavigate();
+  const [userRole] = useState("instructor");
   const [assignments, setAssignments] = useState([
     {
       id: 1,
@@ -21,22 +22,7 @@ const Assignments = () => {
     description: "",
   });
 
-  const handleAddAssignment = () => {
-    if (newAssignment.title && newAssignment.description) {
-      setAssignments([
-        ...assignments,
-        {
-          id: assignments.length + 1,
-          title: newAssignment.title,
-          description: newAssignment.description,
-        },
-      ]);
-      setNewAssignment({ title: "", description: "" });
-      alert("Assignment added successfully!");
-    } else {
-      alert("Title and description are required.");
-    }
-  };
+  const handleAddAssignment = () => {};
 
   return (
     <div>
@@ -44,11 +30,17 @@ const Assignments = () => {
 
       <div className="container">
         {assignments.map((assignment) => (
-          <Assignment
-            key={assignment.id}
-            assignment={assignment}
-            userRole={userRole}
-          />
+          <button
+            onClick={() => {
+              navigate("/assignment", { assignment });
+            }}
+          >
+            <Assignment
+              key={assignment.id}
+              assignment={assignment}
+              userRole={userRole}
+            />
+          </button>
         ))}
       </div>
 

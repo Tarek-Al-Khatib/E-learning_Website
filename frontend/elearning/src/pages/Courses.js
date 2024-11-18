@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./css/base/utilities.css";
 import "./css/Courses.css";
 const Courses = () => {
-  const [userRole] = useState("student");
+  const [userRole] = useState("instructor");
   const [courses, setCourses] = useState([
     { id: 1, name: "Mathematics 101", stream: "Basic Algebra and Geometry" },
     {
@@ -15,22 +15,9 @@ const Courses = () => {
 
   const [enrolledCourses, setEnrolledCourses] = useState([]);
 
-  const handleEnroll = (id) => {
-    const courseToEnroll = courses.find((course) => course.id === id);
-    if (courseToEnroll && !enrolledCourses.some((course) => course.id === id)) {
-      setEnrolledCourses([...enrolledCourses, courseToEnroll]);
-      alert(`Enrolled in ${courseToEnroll.name}`);
-    } else {
-      alert("You are already enrolled in this course!");
-    }
-  };
+  const handleEnroll = (id) => {};
 
-  const handleInvite = (id) => {
-    const course = courses.find((course) => course.id === id);
-    if (course) {
-      alert(`Inviting students to ${course.name}`);
-    }
-  };
+  const handleInvite = (id) => {};
 
   return (
     <div>

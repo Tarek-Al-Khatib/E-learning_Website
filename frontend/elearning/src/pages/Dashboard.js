@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import AssignmentsPage from "./AssignmentsPage";
+import Assignments from "./Assignments";
 import Courses from "./Courses";
 
 const Dashboard = () => {
@@ -8,7 +8,7 @@ const Dashboard = () => {
 
   function content() {
     if (section === "assignments") {
-      return <AssignmentsPage userRole={userRole} />;
+      return <Assignments userRole={userRole} />;
     } else if (section === "courses") {
       return <Courses userRole={userRole} />;
     } else {
