@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./css/base/utilities.css";
 
-const InstructorAdmin = () => {
+const Assignments = () => {
   const [instructors, setInstructors] = useState([
     {
       id: 1,

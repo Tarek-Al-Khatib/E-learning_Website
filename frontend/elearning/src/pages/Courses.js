@@ -1,167 +1,80 @@
 import React, { useState } from "react";
 import "./css/base/utilities.css";
-
-const CourseAdmin = () => {
+import "./css/Courses.css";
+const Courses = () => {
+  const [userRole] = useState("student");
   const [courses, setCourses] = useState([
-    {
-      id: 1,
-      name: "Mathematics 101",
-      instructor: "Dr. John Smith",
-      status: "active",
-    },
+    { id: 1, name: "Mathematics 101", stream: "Basic Algebra and Geometry" },
     {
       id: 2,
       name: "Physics 201",
-      instructor: "Prof. Alice Brown",
-      status: "active",
+      stream: "Newtonian Mechanics and Thermodynamics",
     },
-    {
-      id: 3,
-      name: "Chemistry 301",
-      instructor: "Dr. Emily White",
-      status: "active",
-    },
+    { id: 3, name: "Chemistry 301", stream: "Organic Chemistry and Reactions" },
   ]);
 
-  const [instructors, setInstructors] = useState([
-    {
-      id: 1,
-      name: "Dr. John Smith",
-      email: "john.smith@example.com",
-      status: "active",
-    },
-    {
-      id: 2,
-      name: "Prof. Alice Brown",
-      email: "alice.brown@example.com",
-      status: "active",
-    },
-    {
-      id: 3,
-      name: "Dr. Emily White",
-      email: "emily.white@example.com",
-      status: "active",
-    },
-  ]);
+  const [enrolledCourses, setEnrolledCourses] = useState([]);
 
-  const [formState, setFormState] = useState({
-    id: null,
-    name: "",
-    instructor: "",
-    status: "active",
-  });
-  const [isEditing, setIsEditing] = useState(false);
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormState({ ...formState, [name]: value });
+  const handleEnroll = (id) => {
+    const courseToEnroll = courses.find((course) => course.id === id);
+    if (courseToEnroll && !enrolledCourses.some((course) => course.id === id)) {
+      setEnrolledCourses([...enrolledCourses, courseToEnroll]);
+      alert(`Enrolled in ${courseToEnroll.name}`);
+    } else {
+      alert("You are already enrolled in this course!");
+    }
   };
 
-  const handleCreate = () => {
-    const newCourse = {
-      id: courses.length + 1,
-      name: formState.name,
-      instructor: formState.instructor,
-      status: "active",
-    };
-    setCourses([...courses, newCourse]);
-    setFormState({ id: null, name: "", instructor: "", status: "active" });
-  };
-
-  const handleEdit = (id) => {
-    const courseToEdit = courses.find((course) => course.id === id);
-    setFormState(courseToEdit);
-    setIsEditing(true);
-  };
-
-  const handleSaveEdit = () => {
-    const updatedCourses = courses.map((course) =>
-      course.id === formState.id ? formState : course
-    );
-    setCourses(updatedCourses);
-    setFormState({ id: null, name: "", instructor: "", status: "active" });
-    setIsEditing(false);
-  };
-
-  const handleRemove = (id) => {
-    const updatedCourses = courses.filter((course) => course.id !== id);
-    setCourses(updatedCourses);
+  const handleInvite = (id) => {
+    const course = courses.find((course) => course.id === id);
+    if (course) {
+      alert(`Inviting students to ${course.name}`);
+    }
   };
 
   return (
     <div>
-      <h3>Manage Courses</h3>
-
-      <div className="form-container">
-        <h4>{isEditing ? "Edit Course" : "Create Course"}</h4>
-        <input
-          type="text"
-          name="name"
-          placeholder="Course Name"
-          value={formState.name}
-          onChange={handleInputChange}
-        />
-        <select
-          name="instructor"
-          value={formState.instructor}
-          onChange={handleInputChange}
-        >
-          <option value="">Select Instructor</option>
-          {instructors
-            .filter((instructor) => instructor.status !== "banned")
-            .map((instructor) => (
-              <option key={instructor.id} value={instructor.name}>
-                {instructor.name}
-              </option>
-            ))}
-        </select>
-        <button
-          className="button"
-          onClick={isEditing ? handleSaveEdit : handleCreate}
-        >
-          {isEditing ? "Save Changes" : "Create Course"}
-        </button>
-        {isEditing && (
-          <button
-            onClick={() => {
-              setIsEditing(false);
-              setFormState({
-                id: null,
-                name: "",
-                instructor: "",
-                status: "active",
-              });
-            }}
-            className="cancel-button button"
-          >
-            Cancel
-          </button>
-        )}
-      </div>
-
+      <h3>Courses</h3>
       <div className="container">
         {courses.map((course) => (
-          <div key={course.id} className={`card ${course.status}`}>
+          <div key={course.id} className="card">
             <h4>{course.name}</h4>
-            <p>Instructor: {course.instructor}</p>
-            <p>Status: {course.status}</p>
-            <button
-              className="edit-button button"
-              onClick={() => handleEdit(course.id)}
-            >
-              Edit
-            </button>
-            <button
-              className="remove-button button"
-              onClick={() => handleRemove(course.id)}
-            >
-              Remove
-            </button>
+            <p>Stream: {course.stream}</p>
+
+            {userRole === "student" && (
+              <button
+                className="enroll-button"
+                onClick={() => handleEnroll(course.id)}
+              >
+                Enroll
+              </button>
+            )}
+
+            {userRole === "instructor" && (
+              <button
+                className="invite-button"
+                onClick={() => handleInvite(course.id)}
+              >
+                Invite Students
+              </button>
+            )}
           </div>
         ))}
       </div>
+
+      {userRole === "student" && enrolledCourses.length > 0 && (
+        <div className="enrolled-container">
+          <h4>Enrolled Courses</h4>
+          {enrolledCourses.map((course) => (
+            <div key={course.id} className="enrolled-card">
+              <h5>{course.name}</h5>
+              <p>Stream: {course.stream}</p>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
 
-export default CourseAdmin;
+export default Courses;

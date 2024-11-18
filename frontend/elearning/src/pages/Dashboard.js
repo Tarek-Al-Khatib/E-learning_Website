@@ -2,7 +2,7 @@ import { React } from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 
-const StudentDashboard = () => {
+const Dashboard = () => {
   const [section, setSection] = useState("courses");
 
   function content() {
@@ -56,4 +56,4 @@ const StudentDashboard = () => {
   );
 };
 
-export default StudentDashboard;
+export default Dashboard;
