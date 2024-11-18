@@ -1,33 +1,30 @@
-import { React } from "react";
+import { React, useEffect } from "react";
 import { useState } from "react";
+import axios from "axios";
 import "./css/base/utilities.css";
 const StudentAdmin = () => {
-  //mock data
-  const [students, setStudents] = useState([
-    {
-      id: 1,
-      name: "John Doe",
-      email: "john.doe@example.com",
-      status: "active",
-    },
-    {
-      id: 2,
-      name: "Jane Smith",
-      email: "jane.smith@example.com",
-      status: "active",
-    },
-    {
-      id: 3,
-      name: "Alice Johnson",
-      email: "alice.johnson@example.com",
-      status: "active",
-    },
-  ]);
+  const [students, setStudents] = useState([]);
+  async function getStudents() {
+    const response = await axios.get(
+      "http://localhost:8080/e-learning/backend/general/get-students.php"
+    );
+    setStudents(response.data);
+  }
+  useEffect(() => {
+    getStudents();
+  }, []);
 
-  const handleBan = (id) => {
+  const handleBan = async (id) => {
     const updatedStudents = students.map((student) =>
       student.id == id ? { ...student, status: "banned" } : student
     );
+    console.log(id);
+    const response = await axios.post(
+      "http://localhost:8080/e-learning/backend/admin/ban-user.php",
+      JSON.stringify({ userId: Number(id) })
+    );
+
+    console.log(response.data);
     setStudents(updatedStudents);
   };
   return (

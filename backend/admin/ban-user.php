@@ -20,6 +20,7 @@ $query->bind_param("i", $userId);
 
 if ($query->execute()) {
     if ($query->affected_rows > 0) {
+        http_response_code(200);
         echo json_encode(["message" => "Banned successfully"]);
     } else {
         http_response_code(404); 
