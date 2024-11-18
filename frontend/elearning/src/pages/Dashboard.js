@@ -1,51 +1,49 @@
-import { React } from "react";
-import { useState } from "react";
-import { useEffect } from "react";
+import React, { useState } from "react";
+import AssignmentsPage from "./AssignmentsPage";
+import Courses from "./Courses";
 
 const Dashboard = () => {
+  const userRole = "student";
   const [section, setSection] = useState("courses");
 
   function content() {
-    if (section == "students") {
-      return <StudentAdmin />;
-    } else if (section == "instructors") {
-      return <InstructorAdmin />;
-    } else if (section == "courses") {
-      return <CourseAdmin />;
+    if (section === "assignments") {
+      return <AssignmentsPage userRole={userRole} />;
+    } else if (section === "courses") {
+      return <Courses userRole={userRole} />;
     } else {
-      <div>
-        <h3>Welcome to the Admin Dashboard</h3>
-        <p>Select an option from the sidebar to begin managing the platform.</p>
-      </div>;
+      return (
+        <div>
+          <h3>Welcome to the Dashboard</h3>
+          <p>
+            Select an option from the sidebar to begin managing the platform.
+          </p>
+        </div>
+      );
     }
   }
+
   return (
     <div className="dashboard-container">
       <div className="sidebar">
-        <h2>Admin Dashboard</h2>
+        <h2>
+          {userRole === "instructor" ? "Instructor" : "Student"} Dashboard
+        </h2>
         <ul className="sidebar-menu">
-          <li>
-            <button
-              className="sidebar-button"
-              onClick={() => setSection("students")}
-            >
-              Students
-            </button>
-          </li>
-          <li>
-            <button
-              className="sidebar-button"
-              onClick={() => setSection("instructors")}
-            >
-              Instructors
-            </button>
-          </li>
           <li>
             <button
               className="sidebar-button"
               onClick={() => setSection("courses")}
             >
               Courses
+            </button>
+          </li>
+          <li>
+            <button
+              className="sidebar-button"
+              onClick={() => setSection("assignments")}
+            >
+              Assignments
             </button>
           </li>
         </ul>

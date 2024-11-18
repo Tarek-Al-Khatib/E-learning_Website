@@ -1,112 +1,83 @@
 import React, { useState } from "react";
+import Assignment from "./Assignment";
 import "./css/base/utilities.css";
 
 const Assignments = () => {
-  const [instructors, setInstructors] = useState([
+  const [userRole] = useState("student");
+  const [assignments, setAssignments] = useState([
     {
       id: 1,
-      name: "Dr. John Smith",
-      email: "john.smith@example.com",
-      status: "active",
+      title: "Math Assignment 1",
+      description: "Solve algebra problems.",
     },
     {
       id: 2,
-      name: "Prof. Alice Brown",
-      email: "alice.brown@example.com",
-      status: "active",
-    },
-    {
-      id: 3,
-      name: "Dr. Emily White",
-      email: "emily.white@example.com",
-      status: "active",
+      title: "Physics Assignment 2",
+      description: "Describe Newton's laws.",
     },
   ]);
-
-  const [formState, setFormState] = useState({
-    name: "",
-    email: "",
-    password: "",
+  const [newAssignment, setNewAssignment] = useState({
+    title: "",
+    description: "",
   });
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormState({ ...formState, [name]: value });
-  };
-
-  const handleCreate = () => {
-    if (formState.name && formState.email && formState.password) {
-      const newInstructor = {
-        id: instructors.length + 1,
-        name: formState.name,
-        email: formState.email,
-        status: "active",
-      };
-      setInstructors([...instructors, newInstructor]);
-      setFormState({ name: "", email: "", password: "" });
+  const handleAddAssignment = () => {
+    if (newAssignment.title && newAssignment.description) {
+      setAssignments([
+        ...assignments,
+        {
+          id: assignments.length + 1,
+          title: newAssignment.title,
+          description: newAssignment.description,
+        },
+      ]);
+      setNewAssignment({ title: "", description: "" });
+      alert("Assignment added successfully!");
     } else {
-      alert("Please fill out all fields to create an instructor.");
+      alert("Title and description are required.");
     }
-  };
-
-  const handleBan = (id) => {
-    const updatedInstructors = instructors.map((instructor) =>
-      instructor.id === id ? { ...instructor, status: "banned" } : instructor
-    );
-    setInstructors(updatedInstructors);
   };
 
   return (
     <div>
-      <h3>Manage Instructors</h3>
-
-      <div className="form-container">
-        <h4>Create Instructor</h4>
-        <input
-          type="text"
-          name="name"
-          placeholder="Instructor Name"
-          value={formState.name}
-          onChange={handleInputChange}
-        />
-        <input
-          type="email"
-          name="email"
-          placeholder="Instructor Email"
-          value={formState.email}
-          onChange={handleInputChange}
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Instructor Password"
-          value={formState.password}
-          onChange={handleInputChange}
-        />
-        <button onClick={handleCreate} className="create-button button">
-          Create Instructor
-        </button>
-      </div>
+      <h3>Assignments</h3>
 
       <div className="container">
-        {instructors.map((instructor) => (
-          <div key={instructor.id} className={`card ${instructor.status}`}>
-            <h4>{instructor.name}</h4>
-            <p>Email: {instructor.email}</p>
-            <p>Status: {instructor.status}</p>
-            {instructor.status === "active" && (
-              <button
-                className="ban-button"
-                onClick={() => handleBan(instructor.id)}
-              >
-                Ban
-              </button>
-            )}
-          </div>
+        {assignments.map((assignment) => (
+          <Assignment
+            key={assignment.id}
+            assignment={assignment}
+            userRole={userRole}
+          />
         ))}
       </div>
+
+      {userRole === "instructor" && (
+        <div className="form-container">
+          <h4>Add New Assignment</h4>
+          <input
+            type="text"
+            placeholder="Title"
+            value={newAssignment.title}
+            onChange={(e) =>
+              setNewAssignment({ ...newAssignment, title: e.target.value })
+            }
+          />
+          <textarea
+            placeholder="Description"
+            value={newAssignment.description}
+            onChange={(e) =>
+              setNewAssignment({
+                ...newAssignment,
+                description: e.target.value,
+              })
+            }
+          ></textarea>
+          <button onClick={handleAddAssignment}>Add Assignment</button>
+        </div>
+      )}
     </div>
   );
 };
 
-export default InstructorAdmin;
+export default Assignments;
