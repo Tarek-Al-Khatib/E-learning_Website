@@ -43,4 +43,3 @@ if ($username && $password && $email) {
 } else {
     echo json_encode(["status" => "error", "message" => "Username, password and email are required"]);
 }
-?>
