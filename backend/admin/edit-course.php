@@ -10,16 +10,17 @@ $input = json_decode(file_get_contents("php://input"), true);
 $description = $input['description'];
 $instructor_id = $input['instructor_id'];
 $name = $input['name'];
+$course_id = $input['course_id'];
 
 
-if($description && $instructor_id && $name) {
-  $query = $connection->prepare("INSERT INTO courses (name, description, instructor_id) VALUES(?, ?, ?)");
-  $query->bind_param("ssi", $name, $description, $instructor_id);
+if($description && $instructor_id && $name && $course_id) {
+  $query = $connection->prepare("UPDATE courses SET name = ?, description = ?, instructor_id = ? WHERE id = ?");
+  $query->bind_param("ssii", $name, $description, $instructor_id, $course_id);
 
   if($query->execute()){
-    echo json_encode(["message"=> "Added the course successfuly"]);
+    echo json_encode(["message"=> "Edited the course successfuly"]);
   }else {
-    echo json_encode(["message"=> "Failed to add course"]);
+    echo json_encode(["message"=> "Failed to edit course"]);
   }
 }else{ 
   echo json_encode(["message"=> "The parameters are not received"]);

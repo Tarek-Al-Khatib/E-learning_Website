@@ -63,7 +63,7 @@ const CourseAdmin = () => {
       id: courses.length + 1,
       name: formState.name,
       description: formState.description,
-      instructor: formState.instructor,
+      instructor_id: formState.instructor,
       status: "active",
     };
     setCourses([...courses, newCourse]);
@@ -131,7 +131,7 @@ const CourseAdmin = () => {
           {instructors
             .filter((instructor) => instructor.status !== "banned")
             .map((instructor) => (
-              <option key={instructor.id} value={instructor.name}>
+              <option key={instructor.id} value={instructor.id}>
                 {instructor.name}
               </option>
             ))}
