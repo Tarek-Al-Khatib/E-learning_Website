@@ -23,10 +23,25 @@ const CourseAdmin = () => {
     },
   ]);
 
-  const [instructors] = useState([
-    { id: 1, name: "Dr. John Smith" },
-    { id: 2, name: "Prof. Alice Brown" },
-    { id: 3, name: "Dr. Emily White" },
+  const [instructors, setInstructors] = useState([
+    {
+      id: 1,
+      name: "Dr. John Smith",
+      email: "john.smith@example.com",
+      status: "active",
+    },
+    {
+      id: 2,
+      name: "Prof. Alice Brown",
+      email: "alice.brown@example.com",
+      status: "active",
+    },
+    {
+      id: 3,
+      name: "Dr. Emily White",
+      email: "emily.white@example.com",
+      status: "active",
+    },
   ]);
 
   const [formState, setFormState] = useState({
@@ -92,11 +107,13 @@ const CourseAdmin = () => {
           onChange={handleInputChange}
         >
           <option value="">Select Instructor</option>
-          {instructors.map((instructor) => (
-            <option key={instructor.id} value={instructor.name}>
-              {instructor.name}
-            </option>
-          ))}
+          {instructors
+            .filter((instructor) => instructor.status !== "banned")
+            .map((instructor) => (
+              <option key={instructor.id} value={instructor.name}>
+                {instructor.name}
+              </option>
+            ))}
         </select>
         <button
           className="button"

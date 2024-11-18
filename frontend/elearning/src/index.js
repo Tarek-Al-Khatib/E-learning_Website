@@ -8,7 +8,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <AdminDashboard />
+    <App />
   </React.StrictMode>
 );
 
