@@ -20,12 +20,17 @@ if ($username && $password) {
         if ($result->num_rows > 0) {
             $user = $result->fetch_assoc();
 
+            if (password_verify($password, $user['password'])) {
                 echo json_encode([
-                    "status" => "success",
                     "message" => "Sign-in successful",
-                    "user_id" => $user['user_id'],
-                    "username" => $user['username']
+                    "user_id" => $user['id'],
+                    "username" => $user['username'],
+                    "role" => $user['role'],
+                    "status" => $user['status']
                 ]);
+            } else {
+                echo json_encode(["status" => "error", "message" => "Invalid password"]);
+            }
 
         } else {
             echo json_encode(["status" => "error", "message" => "User not found"]);
