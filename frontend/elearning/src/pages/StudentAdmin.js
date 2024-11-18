@@ -1,6 +1,5 @@
 import { React } from "react";
 import { useState } from "react";
-import "./css/StudentAdmin.css";
 import "./css/base/utilities.css";
 const StudentAdmin = () => {
   //mock data

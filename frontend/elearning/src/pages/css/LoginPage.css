@@ -1,4 +1,4 @@
-.form-container {
+.form-container-login {
   width: 100%;
   max-width: 400px;
   margin: 50px auto;
@@ -9,18 +9,18 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
-.form-container h3 {
+.form-container-login h3 {
   margin-bottom: 20px;
 }
 
-.form-container form input {
+.form-container-login form input {
   width: 80%;
   margin-bottom: 15px;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
 
-.form-container button {
+.form-container-login button {
   width: 100%;
   padding: 10px;
   background-color: #34495e;
@@ -31,7 +31,7 @@
   transition: background-color 0.3s ease;
 }
 
-.form-container button:hover {
+.form-container-login button:hover {
   background-color: #486683;
 }
 

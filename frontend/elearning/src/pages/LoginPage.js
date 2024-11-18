@@ -102,7 +102,7 @@ const Register = () => {
   };
 
   return (
-    <div className="form-container">
+    <div className="form-container-login">
       <h3>{signup ? "Student Registration" : "Student Login"}</h3>
       {signup ? (
         <form onSubmit={handleRegister}>
