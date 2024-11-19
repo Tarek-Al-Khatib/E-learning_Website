@@ -1,27 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./css/base/utilities.css";
 
 const InstructorAdmin = () => {
-  const [instructors, setInstructors] = useState([
-    {
-      id: 1,
-      name: "Dr. John Smith",
-      email: "john.smith@example.com",
-      status: "active",
-    },
-    {
-      id: 2,
-      name: "Prof. Alice Brown",
-      email: "alice.brown@example.com",
-      status: "active",
-    },
-    {
-      id: 3,
-      name: "Dr. Emily White",
-      email: "emily.white@example.com",
-      status: "active",
-    },
-  ]);
+  const [instructors, setInstructors] = useState([]);
+  async function getInstructors() {
+    const response = await axios.get(
+      "http://localhost:8080/e-learning/backend/general/get-instructors.php"
+    );
+    setInstructors(response.data);
+  }
+  useEffect(() => {
+    getInstructors();
+  }, []);
 
   const [formState, setFormState] = useState({
     name: "",
@@ -49,10 +39,15 @@ const InstructorAdmin = () => {
     }
   };
 
-  const handleBan = (id) => {
+  const handleBan = async (id) => {
     const updatedInstructors = instructors.map((instructor) =>
       instructor.id === id ? { ...instructor, status: "banned" } : instructor
     );
+    const response = await axios.post(
+      "http://localhost:8080/e-learning/backend/admin/ban-user.php",
+      JSON.stringify({ userId: Number(id) })
+    );
+    console.log(response.data);
     setInstructors(updatedInstructors);
   };
 
