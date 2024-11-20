@@ -21,6 +21,14 @@ const Assignment = () => {
     );
     setComments(response.data);
   }
+
+  async function checkIfSubmitted() {
+    const response = axios.get(
+      `http://localhost:8080/e-learning/backend/student/check-submitted?assignment_id=${
+        assignment.id
+      }&student_id=${3}`
+    );
+  }
   const [newComment, setNewComment] = useState({
     assignment_id: assignment.id,
     content: "",
@@ -28,11 +36,22 @@ const Assignment = () => {
     user_id: 3,
   });
 
-  const handleFileChange = (e) => {
+  const handleFileChange = async (e) => {
     const file = e.target.files[0];
     if (file) {
       setSubmission(file);
-      alert(`Assignment submitted: ${file.name}`);
+      const submission = {
+        file_path: file.name,
+        assignment_id: assignment.id,
+        student_id: 3,
+      };
+
+      const response = await axios.post(
+        "http://localhost:8080/e-learning/backend/student/submit-assignment.php",
+        JSON.stringify(submission)
+      );
+
+      console.log(response);
     }
   };
 

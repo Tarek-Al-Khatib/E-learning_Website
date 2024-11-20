@@ -29,7 +29,7 @@ $query = $connection->prepare(
 $query->bind_param("iis", $assignment_id, $student_id, $file_path);
 
 if ($query->execute()) {
-    http_response_code(201);
+    http_response_code(200);
     echo json_encode(["message" => "Submission added successfully", "submission_id" => $connection->insert_id]);
 } else {
     http_response_code(500);
