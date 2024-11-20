@@ -34,7 +34,7 @@ const Assignments = () => {
                 navigate(`/assignment`, {
                   state: {
                     assignment: assignment,
-                    userRole: "instructor",
+                    userRole: "student",
                   },
                 })
               }

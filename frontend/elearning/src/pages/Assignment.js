@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./css/Assignment.css";
 import "./css/base/utilities.css";
@@ -7,12 +7,13 @@ const Assignment = () => {
   const location = useLocation();
   const assignment = location.state.assignment;
   const userRole = location.state.userRole;
+  console.log(userRole);
 
   const [submission, setSubmission] = useState(null);
-  const [comments, setComments] = useState([
-    { id: 1, content: "This is a public comment", isPrivate: false },
-    { id: 2, content: "This is a private comment", isPrivate: true },
-  ]);
+  const [comments, setComments] = useState([]);
+
+  useEffect(() => {}, []);
+  async function getComments() {}
   const [newComment, setNewComment] = useState({
     content: "",
     isPrivate: false,
@@ -64,7 +65,6 @@ const Assignment = () => {
           </div>
         ))}
 
-        {/* Add a comment (for students) */}
         {userRole === "student" && (
           <div className="add-comment">
             <textarea
