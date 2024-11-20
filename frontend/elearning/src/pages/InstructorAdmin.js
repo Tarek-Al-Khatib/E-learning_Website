@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import "./css/base/utilities.css";
 
 const InstructorAdmin = () => {
@@ -24,15 +25,21 @@ const InstructorAdmin = () => {
     setFormState({ ...formState, [name]: value });
   };
 
-  const handleCreate = () => {
+  const handleCreate = async () => {
     if (formState.name && formState.email && formState.password) {
       const newInstructor = {
-        id: instructors.length + 1,
-        name: formState.name,
+        username: formState.name,
+        password: formState.password,
         email: formState.email,
-        status: "active",
       };
-      setInstructors([...instructors, newInstructor]);
+
+      const response = await axios.post(
+        "http://localhost:8080/e-learning/backend/admin/create-instructor.php",
+        JSON.stringify(newInstructor)
+      );
+
+      console.log(response.data);
+      getInstructors();
       setFormState({ name: "", email: "", password: "" });
     } else {
       alert("Please fill out all fields to create an instructor.");

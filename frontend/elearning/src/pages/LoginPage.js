@@ -138,7 +138,13 @@ const Register = () => {
           <button type="submit">Register</button>
           <p>
             Already have an account?{" "}
-            <span className="toggle-link" onClick={() => setSignup(false)}>
+            <span
+              className="toggle-link"
+              onClick={() => {
+                setSignup(false);
+                setError("");
+              }}
+            >
               Login here
             </span>
           </p>
@@ -163,7 +169,13 @@ const Register = () => {
           <button type="submit">Login</button>
           <p>
             Don't have an account?{" "}
-            <span className="toggle-link" onClick={() => setSignup(true)}>
+            <span
+              className="toggle-link"
+              onClick={() => {
+                setSignup(true);
+                setError("");
+              }}
+            >
               Register here
             </span>
           </p>
