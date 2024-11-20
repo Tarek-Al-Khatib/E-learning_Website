@@ -93,7 +93,7 @@ const InstructorAdmin = () => {
       <div className="container">
         {instructors.map((instructor) => (
           <div key={instructor.id} className={`card ${instructor.status}`}>
-            <h4>{instructor.name}</h4>
+            <h4>{instructor.username}</h4>
             <p>Email: {instructor.email}</p>
             <p>Status: {instructor.status}</p>
             {instructor.status === "active" && (

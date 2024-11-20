@@ -33,7 +33,7 @@ const StudentAdmin = () => {
       <div className="container">
         {students.map((student) => (
           <div key={student.id} className={`card ${student.status}`}>
-            <h4>{student.name}</h4>
+            <h4>{student.username}</h4>
             <p>Email: {student.email}</p>
             <p>Status: {student.status}</p>
             {student.status == "active" && (

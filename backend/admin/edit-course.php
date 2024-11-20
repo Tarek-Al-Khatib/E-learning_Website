@@ -10,7 +10,7 @@ $input = json_decode(file_get_contents("php://input"), true);
 $description = $input['description'];
 $instructor_id = $input['instructor_id'];
 $name = $input['name'];
-$course_id = $input['course_id'];
+$course_id = $input['id'];
 
 
 if($description && $instructor_id && $name && $course_id) {

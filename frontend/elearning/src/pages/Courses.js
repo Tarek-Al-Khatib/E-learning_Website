@@ -2,16 +2,8 @@ import React, { useState } from "react";
 import "./css/base/utilities.css";
 import "./css/Courses.css";
 const Courses = () => {
-  const [userRole] = useState("instructor");
-  const [courses, setCourses] = useState([
-    { id: 1, name: "Mathematics 101", stream: "Basic Algebra and Geometry" },
-    {
-      id: 2,
-      name: "Physics 201",
-      stream: "Newtonian Mechanics and Thermodynamics",
-    },
-    { id: 3, name: "Chemistry 301", stream: "Organic Chemistry and Reactions" },
-  ]);
+  const [userRole] = useState("student");
+  const [courses, setCourses] = useState([]);
 
   const [enrolledCourses, setEnrolledCourses] = useState([]);
 

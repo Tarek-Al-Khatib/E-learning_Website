@@ -25,6 +25,7 @@ const CourseAdmin = () => {
     getCourses();
   }, []);
   const [formState, setFormState] = useState({
+    id: "",
     name: "",
     description: "",
     instructor_id: "",
@@ -70,7 +71,21 @@ const CourseAdmin = () => {
     setIsEditing(true);
   };
 
-  const handleSaveEdit = () => {
+  const handleSaveEdit = async (e) => {
+    const newCourse = {
+      id: formState.id,
+      name: formState.name,
+      description: formState.description,
+      instructor_id: Number(formState.instructor_id),
+    };
+    console.log(newCourse);
+    const response = await axios.post(
+      "http://localhost:8080/e-learning/backend/admin/edit-course.php",
+      JSON.stringify(newCourse)
+    );
+
+    console.log(response.data);
+    getCourses();
     setFormState({
       name: "",
       description: "",
