@@ -27,42 +27,54 @@ const CourseAdmin = () => {
   const [formState, setFormState] = useState({
     name: "",
     description: "",
-    instructor: "",
+    instructor_id: "",
   });
   const [isEditing, setIsEditing] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormState({ ...formState, [name]: value });
+    console.log(name, value);
   };
 
-  const handleCreate = () => {
+  const handleSelectChange = (e) => {
+    setFormState({ ...formState, instructor_id: e.target.value });
+  };
+
+  const handleCreate = async () => {
     const newCourse = {
       name: formState.name,
       description: formState.description,
-      instructor_id: formState.instructor,
+      instructor_id: Number(formState.instructor_id),
     };
+    console.log(newCourse);
+
+    const response = await axios.post(
+      "http://localhost:8080/e-learning/backend/admin/create-course.php",
+      JSON.stringify(newCourse)
+    );
+
+    console.log(response.data);
+    getCourses();
     setFormState({
-      id: null,
       name: "",
       description: "",
-      instructor: "",
+      instructor_id: "",
     });
   };
 
   const handleEdit = (id) => {
     const courseToEdit = courses.find((course) => course.id === id);
+    console.log(courseToEdit);
     setFormState(courseToEdit);
     setIsEditing(true);
   };
 
   const handleSaveEdit = () => {
     setFormState({
-      id: null,
       name: "",
       description: "",
-      instructor: "",
-      status: "active",
+      instructor_id: "",
     });
     setIsEditing(false);
   };
@@ -91,8 +103,8 @@ const CourseAdmin = () => {
         />
         <select
           name="instructor"
-          value={formState.instructor}
-          onChange={handleInputChange}
+          value={formState.instructor_id}
+          onChange={handleSelectChange}
         >
           <option value="">Select Instructor</option>
           {instructors
@@ -114,9 +126,9 @@ const CourseAdmin = () => {
             onClick={() => {
               setIsEditing(false);
               setFormState({
-                id: null,
                 name: "",
-                instructor: "",
+                description: "",
+                instructor_id: "",
               });
             }}
             className="cancel-button button"
@@ -130,7 +142,8 @@ const CourseAdmin = () => {
         {courses.map((course) => (
           <div key={course.id} className={`card ${course.status}`}>
             <h4>{course.name}</h4>
-            <p>Instructor: {course.instructor}</p>
+            <p>Description: {course.description}</p>
+            <p>Instructor: {course.username}</p>
             <button
               className="edit-button button"
               onClick={() => handleEdit(course.id)}

@@ -7,9 +7,9 @@ header('Content-Type: application/json');
 
 $input = json_decode(file_get_contents("php://input"), true);
 
-$description = $input['description'];
-$instructor_id = $input['instructor_id'];
-$name = $input['name'];
+$description = $input['description'] ?? null;
+$instructor_id = $input['instructor_id'] ?? null;
+$name = $input['name'] ?? null;
 
 
 if($description && $instructor_id && $name) {
