@@ -11,8 +11,10 @@ const Assignment = () => {
 
   const [submission, setSubmission] = useState(null);
   const [comments, setComments] = useState([]);
+  const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
+    checkIfSubmitted();
     getComments();
   }, []);
   async function getComments() {
@@ -23,11 +25,16 @@ const Assignment = () => {
   }
 
   async function checkIfSubmitted() {
-    const response = axios.get(
-      `http://localhost:8080/e-learning/backend/student/check-submitted?assignment_id=${
+    const response = await axios.get(
+      `http://localhost:8080/e-learning/backend/student/check-submitted.php?assignment_id=${
         assignment.id
       }&student_id=${3}`
     );
+    console.log(response);
+    if (response.data.value != false) {
+      setSubmitted(true);
+      setSubmission({ name: response.data.file_path });
+    }
   }
   const [newComment, setNewComment] = useState({
     assignment_id: assignment.id,
@@ -52,6 +59,7 @@ const Assignment = () => {
       );
 
       console.log(response);
+      setSubmitted(true);
     }
   };
 
@@ -81,8 +89,14 @@ const Assignment = () => {
 
       {userRole === "student" && (
         <div className="submission-container">
-          <h4>Submit Your Assignment</h4>
-          <input type="file" onChange={handleFileChange} />
+          {!submitted && <h4>Submit Your Assignment</h4>}
+          {!submitted && (
+            <input
+              type="file"
+              onChange={handleFileChange}
+              disabled={submitted}
+            />
+          )}
           {submission && <p>Submitted File: {submission.name}</p>}
         </div>
       )}

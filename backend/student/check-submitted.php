@@ -15,7 +15,7 @@ if($student_id && $assignment_id){
   $query->execute();
   $result = $query->get_result();
   if($result->num_rows > 0){
-    echo json_encode(["value"=> true]);
+    echo json_encode($result->fetch_assoc());
   }else {
     echo json_encode(["value" => false]);
   }
