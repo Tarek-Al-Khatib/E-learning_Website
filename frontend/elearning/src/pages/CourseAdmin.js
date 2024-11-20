@@ -155,7 +155,7 @@ const CourseAdmin = () => {
 
       <div className="container">
         {courses.map((course) => (
-          <div key={course.id} className={`card ${course.status}`}>
+          <div key={course.id}>
             <h4>{course.name}</h4>
             <p>Description: {course.description}</p>
             <p>Instructor: {course.username}</p>
