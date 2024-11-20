@@ -56,6 +56,9 @@ const Assignment = () => {
       <h3>{assignment.title}</h3>
       <p>{assignment.description}</p>
       <h5>Due Date: {assignment.due_date}</h5>
+      <p>
+        <strong>Course: {assignment.course_name}</strong>
+      </p>
 
       {userRole === "student" && (
         <div className="submission-container">
