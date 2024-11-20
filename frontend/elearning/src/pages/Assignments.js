@@ -4,7 +4,17 @@ import axios from "axios";
 
 const Assignments = () => {
   const [assignments, setAssignments] = useState([]);
+  useEffect(() => {
+    getAssignmentsFromEnrolled();
+  }, []);
 
+  async function getAssignmentsFromEnrolled() {
+    const response = await axios.get(
+      `http://localhost:8080/e-learning/backend/student/get-assignments-enrolled.php?student_id=${3}`
+    );
+    console.log(response.data);
+    setAssignments(response.data);
+  }
   const navigate = useNavigate();
 
   return (
