@@ -8,7 +8,6 @@ const Assignment = () => {
   const location = useLocation();
   const assignment = location.state.assignment;
   const userRole = location.state.userRole;
-  console.log(userRole);
 
   const [submission, setSubmission] = useState(null);
   const [comments, setComments] = useState([]);
@@ -20,7 +19,6 @@ const Assignment = () => {
     const response = await axios.get(
       `http://localhost:8080/e-learning/backend/student/get-comments.php?assignment_id=${assignment.id}`
     );
-    console.log(response.data);
     setComments(response.data);
   }
   const [newComment, setNewComment] = useState({
@@ -39,12 +37,14 @@ const Assignment = () => {
   };
 
   const handleAddComment = async () => {
-    const response = await axios.get(
-      `http://localhost:8080/e-learning/backend/student/add-comment.php`,
-      newComment
+    console.log(newComment);
+    const response = await axios.post(
+      "http://localhost:8080/e-learning/backend/student/add-comment.php",
+      JSON.stringify(newComment)
     );
     console.log(response.data);
     getComments();
+    setNewComment({ ...newComment, content: "" });
   };
 
   return (
@@ -68,7 +68,9 @@ const Assignment = () => {
       <div className="comments-container">
         <h4>Comments</h4>
         {comments
-          .filter((c) => (userRole === "student" ? !c.is_private : true))
+          .filter((c) =>
+            userRole === "student" ? !c.is_private || c.user_id == 3 : true
+          )
           .map((comment) => (
             <div
               key={comment.id}

@@ -17,11 +17,11 @@ if ($assignment_id && $user_id && $content) {
   $query->bind_param("iisi", $assignment_id, $user_id, $content, $is_private);
 
   if ($query->execute()) {
-      http_response_code(201); // Resource created
+      http_response_code(201);
       echo json_encode(["message" => "Comment added successfully", "comment_id" => $connection->insert_id]);
   } else {
       http_response_code(500);
-      echo json_encode(["message" => "Server error: " . $query->error]);
+      echo json_encode(["message" => "Server error"]);
   }
 }else {
   echo json_encode(["message" => "Parameters are required"]);

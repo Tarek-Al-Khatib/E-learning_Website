@@ -12,7 +12,6 @@ const Assignments = () => {
     const response = await axios.get(
       `http://localhost:8080/e-learning/backend/student/get-assignments-enrolled.php?student_id=${3}`
     );
-    console.log(response.data);
     setAssignments(response.data);
   }
   const navigate = useNavigate();
