@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./css/Assignment.css";
 import "./css/base/utilities.css";
+import axios from "axios";
 const Assignment = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -12,11 +13,19 @@ const Assignment = () => {
   const [submission, setSubmission] = useState(null);
   const [comments, setComments] = useState([]);
 
-  useEffect(() => {}, []);
-  async function getComments() {}
+  useEffect(() => {
+    getComments();
+  }, []);
+  async function getComments() {
+    const response = await axios.get(
+      `http://localhost:8080/e-learning/backend/student/get-comments.php?assignment_id=${assignment.id}`
+    );
+    console.log(response.data);
+    setComments(response.data);
+  }
   const [newComment, setNewComment] = useState({
     content: "",
-    isPrivate: false,
+    is_private: false,
   });
 
   const handleFileChange = (e) => {
@@ -27,14 +36,7 @@ const Assignment = () => {
     }
   };
 
-  const handleAddComment = () => {
-    if (newComment.content) {
-      setComments([...comments, { ...newComment, id: comments.length + 1 }]);
-      setNewComment({ content: "", isPrivate: false });
-    } else {
-      alert("Comment content is required.");
-    }
-  };
+  const handleAddComment = () => {};
 
   return (
     <div>
@@ -55,15 +57,17 @@ const Assignment = () => {
 
       <div className="comments-container">
         <h4>Comments</h4>
-        {comments.map((comment) => (
-          <div
-            key={comment.id}
-            className={`comment ${comment.isPrivate ? "private" : "public"}`}
-          >
-            <p>{comment.content}</p>
-            {comment.isPrivate && <span className="tag">Private</span>}
-          </div>
-        ))}
+        {comments
+          //.filter((c) => (userRole === "student" ? !c.is_private : true))
+          .map((comment) => (
+            <div
+              key={comment.id}
+              className={`comment ${comment.is_private ? "private" : "public"}`}
+            >
+              <p>{comment.content}</p>
+              {comment.is_private && <span className="tag">Private</span>}
+            </div>
+          ))}
 
         {userRole === "student" && (
           <div className="add-comment">
@@ -77,9 +81,9 @@ const Assignment = () => {
             <label>
               <input
                 type="checkbox"
-                checked={newComment.isPrivate}
+                checked={newComment.is_private}
                 onChange={(e) =>
-                  setNewComment({ ...newComment, isPrivate: e.target.checked })
+                  setNewComment({ ...newComment, is_private: e.target.checked })
                 }
               />
               Private Comment
