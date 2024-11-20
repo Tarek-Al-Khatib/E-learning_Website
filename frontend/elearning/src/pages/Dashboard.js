@@ -3,7 +3,7 @@ import Assignments from "./Assignments";
 import Courses from "./Courses";
 
 const Dashboard = () => {
-  const userRole = "student";
+  const userRole = "instructor";
   const [section, setSection] = useState("courses");
 
   function content() {
