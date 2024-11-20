@@ -39,7 +39,7 @@ const Assignment = () => {
   const handleAddComment = () => {};
 
   return (
-    <div>
+    <div className="assignment-container">
       <button className="back-button button" onClick={() => navigate(-1)}>
         &larr; Back
       </button>
@@ -64,8 +64,8 @@ const Assignment = () => {
               key={comment.id}
               className={`comment ${comment.is_private ? "private" : "public"}`}
             >
+              <h4>{comment.username}: </h4>
               <p>{comment.content}</p>
-              {comment.is_private && <span className="tag">Private</span>}
             </div>
           ))}
 
