@@ -24,8 +24,10 @@ const Assignment = () => {
     setComments(response.data);
   }
   const [newComment, setNewComment] = useState({
+    assignment_id: assignment.id,
     content: "",
     is_private: false,
+    user_id: 3,
   });
 
   const handleFileChange = (e) => {
@@ -36,7 +38,14 @@ const Assignment = () => {
     }
   };
 
-  const handleAddComment = () => {};
+  const handleAddComment = async () => {
+    const response = await axios.get(
+      `http://localhost:8080/e-learning/backend/student/add-comment.php`,
+      newComment
+    );
+    console.log(response.data);
+    setComments(response.data);
+  };
 
   return (
     <div className="assignment-container">
@@ -46,6 +55,7 @@ const Assignment = () => {
 
       <h3>{assignment.title}</h3>
       <p>{assignment.description}</p>
+      <h5>Due Date: {assignment.due_date}</h5>
 
       {userRole === "student" && (
         <div className="submission-container">
@@ -58,7 +68,7 @@ const Assignment = () => {
       <div className="comments-container">
         <h4>Comments</h4>
         {comments
-          //.filter((c) => (userRole === "student" ? !c.is_private : true))
+          .filter((c) => (userRole === "student" ? !c.is_private : true))
           .map((comment) => (
             <div
               key={comment.id}

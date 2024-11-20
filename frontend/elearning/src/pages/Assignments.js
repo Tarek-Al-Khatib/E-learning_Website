@@ -25,6 +25,7 @@ const Assignments = () => {
           <div key={assignment.id} className="card">
             <h4>{assignment.title}</h4>
             <p>{assignment.description}</p>
+            <h5>Due Date: {assignment.due_date}</h5>
             <p>
               <strong>Course: {assignment.course_name}</strong>
             </p>
