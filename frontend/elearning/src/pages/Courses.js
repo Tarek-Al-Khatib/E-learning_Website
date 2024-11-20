@@ -6,6 +6,11 @@ const Courses = () => {
   const [userRole] = useState("student");
   const [courses, setCourses] = useState([]);
   const [enrolledCourses, setEnrolledCourses] = useState([]);
+
+  useEffect(() => {
+    getCourses();
+    getEnrolledCourses();
+  }, []);
   async function getCourses() {
     const response = await axios.get(
       "http://localhost:8080/e-learning/backend/general/get-courses.php"
@@ -21,17 +26,14 @@ const Courses = () => {
     setEnrolledCourses(response.data);
   }
 
-  useEffect(() => {
-    getCourses();
-    getEnrolledCourses();
-  }, []);
-
   const handleEnroll = async (id) => {
+    console.log(id);
     const response = await axios.post(
       "http://localhost:8080/e-learning/backend/student/enroll-course.php",
-      { course_id: id, user_id: 3 }
+      JSON.stringify({ course_id: id, user_id: 3 })
     );
     console.log(response.data);
+    getEnrolledCourses();
   };
 
   const handleInvite = (id) => {};
