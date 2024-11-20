@@ -3,7 +3,7 @@ include "../connection.php";
 header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Headers: *");
 
-$query = $connection->prepare("SELECT * FROM courses");
+$query = $connection->prepare("SELECT c.name, c.description, i.username FROM courses c JOIN users i on c.instructor_id = i.id");
 $query->execute();
 $courses = [];
 $result = $query->get_result();

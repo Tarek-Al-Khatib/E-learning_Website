@@ -1,55 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import "./css/base/utilities.css";
 
 const CourseAdmin = () => {
-  const [courses, setCourses] = useState([
-    {
-      id: 1,
-      name: "Mathematics 101",
-      instructor: "Dr. John Smith",
-      status: "active",
-    },
-    {
-      id: 2,
-      name: "Physics 201",
-      instructor: "Prof. Alice Brown",
-      status: "active",
-    },
-    {
-      id: 3,
-      name: "Chemistry 301",
-      instructor: "Dr. Emily White",
-      status: "active",
-    },
-  ]);
+  const [courses, setCourses] = useState([]);
 
-  const [instructors, setInstructors] = useState([
-    {
-      id: 1,
-      name: "Dr. John Smith",
-      email: "john.smith@example.com",
-      status: "active",
-    },
-    {
-      id: 2,
-      name: "Prof. Alice Brown",
-      email: "alice.brown@example.com",
-      status: "active",
-    },
-    {
-      id: 3,
-      name: "Dr. Emily White",
-      email: "emily.white@example.com",
-      status: "active",
-    },
-  ]);
+  const [instructors, setInstructors] = useState([]);
 
+  async function getInstructors() {
+    const response = await axios.get(
+      "http://localhost:8080/e-learning/backend/general/get-instructors.php"
+    );
+    setInstructors(response.data);
+  }
+
+  async function getCourses() {
+    const response = await axios.get(
+      "http://localhost:8080/e-learning/backend/general/get-courses.php"
+    );
+    setCourses(response.data);
+  }
+  useEffect(() => {
+    getInstructors();
+    getCourses();
+  }, []);
   const [formState, setFormState] = useState({
-    id: null,
     name: "",
     description: "",
     instructor: "",
-    status: "active",
   });
   const [isEditing, setIsEditing] = useState(false);
 
@@ -60,19 +38,15 @@ const CourseAdmin = () => {
 
   const handleCreate = () => {
     const newCourse = {
-      id: courses.length + 1,
       name: formState.name,
       description: formState.description,
       instructor_id: formState.instructor,
-      status: "active",
     };
-    setCourses([...courses, newCourse]);
     setFormState({
       id: null,
       name: "",
       description: "",
       instructor: "",
-      status: "active",
     });
   };
 
@@ -83,10 +57,6 @@ const CourseAdmin = () => {
   };
 
   const handleSaveEdit = () => {
-    const updatedCourses = courses.map((course) =>
-      course.id === formState.id ? formState : course
-    );
-    setCourses(updatedCourses);
     setFormState({
       id: null,
       name: "",
@@ -97,10 +67,7 @@ const CourseAdmin = () => {
     setIsEditing(false);
   };
 
-  const handleRemove = (id) => {
-    const updatedCourses = courses.filter((course) => course.id !== id);
-    setCourses(updatedCourses);
-  };
+  const handleRemove = (id) => {};
 
   return (
     <div>
@@ -132,7 +99,7 @@ const CourseAdmin = () => {
             .filter((instructor) => instructor.status !== "banned")
             .map((instructor) => (
               <option key={instructor.id} value={instructor.id}>
-                {instructor.name}
+                {instructor.username}
               </option>
             ))}
         </select>
@@ -150,7 +117,6 @@ const CourseAdmin = () => {
                 id: null,
                 name: "",
                 instructor: "",
-                status: "active",
               });
             }}
             className="cancel-button button"
@@ -165,7 +131,6 @@ const CourseAdmin = () => {
           <div key={course.id} className={`card ${course.status}`}>
             <h4>{course.name}</h4>
             <p>Instructor: {course.instructor}</p>
-            <p>Status: {course.status}</p>
             <button
               className="edit-button button"
               onClick={() => handleEdit(course.id)}
