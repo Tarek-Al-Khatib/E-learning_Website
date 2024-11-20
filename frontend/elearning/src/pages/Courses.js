@@ -3,9 +3,11 @@ import "./css/base/utilities.css";
 import "./css/Courses.css";
 import axios from "axios";
 const Courses = () => {
-  const [userRole] = useState("student");
+  const [userRole] = useState("instructor");
   const [courses, setCourses] = useState([]);
   const [enrolledCourses, setEnrolledCourses] = useState([]);
+  const [showInput, setShowInput] = useState(false);
+  const [email, setEmail] = useState("");
 
   useEffect(() => {
     getCourses();
@@ -36,7 +38,17 @@ const Courses = () => {
     getEnrolledCourses();
   };
 
-  const handleInvite = (id) => {};
+  const handleInvite = () => {
+    setShowInput(true);
+  };
+
+  const handleSubmit = async (courseid, email) => {
+    const response = await axios.post(
+      "http://localhost:8080/e-learning/backend/instructor/enroll-student-email.php",
+      JSON.stringify({ course_id: id, user_id: 3 })
+    );
+    console.log(response.data);
+  };
 
   return (
     <div>
@@ -57,12 +69,23 @@ const Courses = () => {
             )}
 
             {userRole == "instructor" && (
-              <button
-                className="invite-button"
-                onClick={() => handleInvite(course.id)}
-              >
+              <button className="invite-button" onClick={handleInvite}>
                 Invite Students
               </button>
+            )}
+
+            {showInput && (
+              <div>
+                <input
+                  type="email"
+                  placeholder="Enter student email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+                <button onClick={() => handleSubmit(course.id, email)}>
+                  Send Invite
+                </button>
+              </div>
             )}
           </div>
         ))}
