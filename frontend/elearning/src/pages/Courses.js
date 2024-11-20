@@ -13,11 +13,26 @@ const Courses = () => {
     setCourses(response.data);
   }
 
+  async function getEnrolledCourses() {
+    const response = await axios.get(
+      `http://localhost:8080/e-learning/backend/student/get-enrolled-courses.php?id=${3}`
+    );
+    console.log(response.data);
+    setEnrolledCourses(response.data);
+  }
+
   useEffect(() => {
     getCourses();
+    getEnrolledCourses();
   }, []);
 
-  const handleEnroll = (id) => {};
+  const handleEnroll = async (id) => {
+    const response = await axios.post(
+      "http://localhost:8080/e-learning/backend/student/enroll-course.php",
+      { course_id: id, user_id: 3 }
+    );
+    console.log(response.data);
+  };
 
   const handleInvite = (id) => {};
 
@@ -57,7 +72,8 @@ const Courses = () => {
           {enrolledCourses.map((course) => (
             <div key={course.id} className="enrolled-card">
               <h5>{course.name}</h5>
-              <p>Stream: {course.stream}</p>
+              <p>Instructor: {course.instructor_name}</p>
+              <p>Description: {course.description}</p>
             </div>
           ))}
         </div>
