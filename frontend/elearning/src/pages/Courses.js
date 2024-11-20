@@ -6,8 +6,6 @@ const Courses = () => {
   const [userRole] = useState("instructor");
   const [courses, setCourses] = useState([]);
   const [enrolledCourses, setEnrolledCourses] = useState([]);
-  const [showInput, setShowInput] = useState(false);
-  const [email, setEmail] = useState("");
 
   useEffect(() => {
     getCourses();
@@ -17,7 +15,11 @@ const Courses = () => {
     const response = await axios.get(
       "http://localhost:8080/e-learning/backend/general/get-courses.php"
     );
-    setCourses(response.data);
+
+    const temp = response.data;
+    temp.forEach((c) => ((c.showInput = false), (c.email = "")));
+    setCourses(temp);
+    console.log(courses);
   }
 
   async function getEnrolledCourses() {
@@ -38,16 +40,18 @@ const Courses = () => {
     getEnrolledCourses();
   };
 
-  const handleInvite = () => {
-    setShowInput(true);
-  };
-
   const handleSubmit = async (courseid, email) => {
     const response = await axios.post(
       "http://localhost:8080/e-learning/backend/instructor/enroll-student-email.php",
-      JSON.stringify({ course_id: id, user_id: 3 })
+      JSON.stringify({ course_id: courseid, email: email })
     );
+
     console.log(response.data);
+    setCourses((prevCourses) =>
+      prevCourses.map((c) =>
+        c.id === courseid ? { ...c, showInput: false, email: "" } : c
+      )
+    );
   };
 
   return (
@@ -69,20 +73,35 @@ const Courses = () => {
             )}
 
             {userRole == "instructor" && (
-              <button className="invite-button" onClick={handleInvite}>
+              <button
+                className="invite-button"
+                onClick={() => {
+                  setCourses((prevCourses) =>
+                    prevCourses.map((c) =>
+                      c.id === course.id ? { ...c, showInput: true } : c
+                    )
+                  );
+                }}
+              >
                 Invite Students
               </button>
             )}
 
-            {showInput && (
+            {course.showInput && (
               <div>
                 <input
                   type="email"
                   placeholder="Enter student email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  value={course.email}
+                  onChange={(e) => {
+                    setCourses((prevCourses) =>
+                      prevCourses.map((c) =>
+                        c.id === course.id ? { ...c, email: e.target.value } : c
+                      )
+                    );
+                  }}
                 />
-                <button onClick={() => handleSubmit(course.id, email)}>
+                <button onClick={() => handleSubmit(course.id, course.email)}>
                   Send Invite
                 </button>
               </div>
