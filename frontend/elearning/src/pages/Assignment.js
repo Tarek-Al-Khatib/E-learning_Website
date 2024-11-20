@@ -44,7 +44,7 @@ const Assignment = () => {
       newComment
     );
     console.log(response.data);
-    setComments(response.data);
+    getComments();
   };
 
   return (
