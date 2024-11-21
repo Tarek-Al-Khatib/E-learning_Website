@@ -11,9 +11,9 @@ const Dashboard = () => {
 
   function content() {
     if (section === "assignments") {
-      return <Assignments userRole={user.role} />;
+      return <Assignments userRole={user.role} token={user.access_token} />;
     } else if (section === "courses") {
-      return <Courses userRole={user.role} />;
+      return <Courses role={user.role} token={user.access_token} />;
     } else {
       return (
         <div>

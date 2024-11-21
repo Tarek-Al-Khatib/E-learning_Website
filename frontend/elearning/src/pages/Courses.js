@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./css/base/utilities.css";
 import "./css/Courses.css";
 import axios from "axios";
-const Courses = ({ role }) => {
+const Courses = ({ role, token }) => {
   const [courses, setCourses] = useState([]);
   const [enrolledCourses, setEnrolledCourses] = useState([]);
 

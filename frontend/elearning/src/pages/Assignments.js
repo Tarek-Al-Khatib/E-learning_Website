@@ -3,9 +3,10 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./css/base/utilities.css";
 
-const Assignments = ({ userRole }) => {
+const Assignments = ({ userRole, token }) => {
   const [assignments, setAssignments] = useState([]);
   const [userType] = useState(userRole);
+  console.log(token);
   const [newAssignment, setNewAssignment] = useState({
     title: "",
     description: "",
@@ -37,7 +38,13 @@ const Assignments = ({ userRole }) => {
 
   async function getAssignmentsFromGiven() {
     const response = await axios.get(
-      `http://localhost:8080/e-learning/backend/instructor/get-assignments-given.php?instructor_id=${5}`
+      `http://localhost:8080/e-learning/backend/instructor/get-assignments-given.php?instructor_id=${5}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token,
+        },
+      }
     );
     setAssignments(response.data);
   }
@@ -53,7 +60,13 @@ const Assignments = ({ userRole }) => {
     try {
       const response = await axios.post(
         "http://localhost:8080/e-learning/backend/instructor/create-assignment.php",
-        JSON.stringify(newAssignment)
+        JSON.stringify(newAssignment),
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token,
+          },
+        }
       );
       console.log(response.data);
       setNewAssignment({
@@ -62,7 +75,7 @@ const Assignments = ({ userRole }) => {
         due_date: "",
         course_id: "",
       });
-      getAssignmentsFromEnrolled();
+      getAssignmentsFromGiven();
     } catch (error) {
       console.error("Error creating assignment", error);
     }
