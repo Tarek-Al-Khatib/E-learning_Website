@@ -1,9 +1,25 @@
 <?php
-include "../connection.php"; 
 
+include "../connection.php"; 
+include "../jwt/secret_key.php";
 header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Headers: *");
 header('Content-Type: application/json');
+
+require "../vendor/autoload.php";
+
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
+$headers = getallheaders();
+$jwt = $headers['Authorization'];
+$key = new Key($secretKey, "HS256");
+$payload = JWT::decode($jwt, $key);
+
+if($payload->role != "instructor" && $payload->role != "admin"){
+    http_response_code(401);
+    echo json_encode(["message"=> "You are not authorized to do this"]);
+    return;
+}
 
 $instructor_id = $_GET['instructor_id'];
 
