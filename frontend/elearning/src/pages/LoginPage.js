@@ -64,12 +64,17 @@ const Register = () => {
 
       const user = response.data;
       console.log(user);
-      if (user.status != "banned") {
+      if (user.role == "admin") {
+        navigate("/admin", {
+          state: {
+            user,
+          },
+        });
+      } else {
         navigate("/dashboard", {
-          token: user.token,
-          user_id: user.user_id,
-          username: user.username,
-          role: user.role,
+          state: {
+            user,
+          },
         });
       }
     } catch (error) {

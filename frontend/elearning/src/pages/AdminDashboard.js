@@ -5,7 +5,15 @@ import "./css/AdminDashboard.css";
 import StudentAdmin from "./StudentAdmin";
 import InstructorAdmin from "./InstructorAdmin";
 import CourseAdmin from "./CourseAdmin";
+import { useLocation, useNavigate } from "react-router-dom";
 const AdminDashboard = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  useEffect(() => {
+    if (!location.state) {
+      navigate("/");
+    }
+  }, [location, navigate]);
   const [section, setSection] = useState("students");
 
   function content() {
