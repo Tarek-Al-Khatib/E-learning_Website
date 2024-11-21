@@ -15,14 +15,14 @@ const AdminDashboard = () => {
     }
   }, [location, navigate]);
   const [section, setSection] = useState("students");
-
+  const user = location.state.user;
   function content() {
     if (section == "students") {
-      return <StudentAdmin />;
+      return <StudentAdmin token={user.access_token} />;
     } else if (section == "instructors") {
-      return <InstructorAdmin />;
+      return <InstructorAdmin token={user.access_token} />;
     } else if (section == "courses") {
-      return <CourseAdmin />;
+      return <CourseAdmin token={user.access_token} />;
     } else {
       <div>
         <h3>Welcome to the Admin Dashboard</h3>

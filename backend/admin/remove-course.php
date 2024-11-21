@@ -25,7 +25,7 @@ $input = json_decode(file_get_contents("php://input"), true);
 $course_id = $input['course_id'];
 
 
-if($ $course_id) {
+if($course_id) {
   $query = $connection->prepare("DELETE FROM courses WHERE id = ?");
   $query->bind_param("i", $course_id);
 

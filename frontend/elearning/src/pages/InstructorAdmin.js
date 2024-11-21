@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./css/base/utilities.css";
 
-const InstructorAdmin = () => {
+const InstructorAdmin = ({ token }) => {
   const [instructors, setInstructors] = useState([]);
   async function getInstructors() {
     const response = await axios.get(
@@ -35,7 +35,13 @@ const InstructorAdmin = () => {
 
       const response = await axios.post(
         "http://localhost:8080/e-learning/backend/admin/create-instructor.php",
-        JSON.stringify(newInstructor)
+        JSON.stringify(newInstructor),
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token,
+          },
+        }
       );
 
       console.log(response.data);
@@ -52,7 +58,13 @@ const InstructorAdmin = () => {
     );
     const response = await axios.post(
       "http://localhost:8080/e-learning/backend/admin/ban-user.php",
-      JSON.stringify({ userId: Number(id) })
+      JSON.stringify({ userId: Number(id) }),
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token,
+        },
+      }
     );
     console.log(response.data);
     setInstructors(updatedInstructors);

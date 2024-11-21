@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./css/base/utilities.css";
 
-const CourseAdmin = () => {
+const CourseAdmin = ({ token }) => {
   const [courses, setCourses] = useState([]);
 
   const [instructors, setInstructors] = useState([]);
@@ -52,7 +52,13 @@ const CourseAdmin = () => {
 
     const response = await axios.post(
       "http://localhost:8080/e-learning/backend/admin/create-course.php",
-      JSON.stringify(newCourse)
+      JSON.stringify(newCourse),
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token,
+        },
+      }
     );
 
     console.log(response.data);
@@ -81,7 +87,13 @@ const CourseAdmin = () => {
     console.log(newCourse);
     const response = await axios.post(
       "http://localhost:8080/e-learning/backend/admin/edit-course.php",
-      JSON.stringify(newCourse)
+      JSON.stringify(newCourse),
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token,
+        },
+      }
     );
 
     console.log(response.data);
@@ -94,7 +106,20 @@ const CourseAdmin = () => {
     setIsEditing(false);
   };
 
-  const handleRemove = (id) => {};
+  const handleRemove = async (id) => {
+    const response = await axios.post(
+      "http://localhost:8080/e-learning/backend/admin/remove-course.php",
+      JSON.stringify({ course_id: id }),
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token,
+        },
+      }
+    );
+    console.log(response.data);
+    getCourses();
+  };
 
   return (
     <div>
