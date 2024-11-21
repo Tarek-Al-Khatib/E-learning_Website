@@ -97,23 +97,29 @@ const Register = () => {
 
       const user = response.data;
       console.log(user);
-      if (user.status != "banned") {
+      if (user.status == "error") {
+        console.log("error");
+        setError(user.message);
+      } else if (user.status != "banned") {
         if (user.role == "admin") {
           navigate("/admin", {
-            token: user.token,
-            user_id: user.user_id,
-            username: user.username,
-            role: user.role,
+            state: {
+              token: user.token,
+              user_id: user.user_id,
+              username: user.username,
+              role: user.role,
+            },
           });
         } else {
           navigate("/dashboard", {
-            token: user.token,
-            user_id: user.user_id,
-            username: user.username,
-            role: user.role,
+            user: {
+              token: user.token,
+              user_id: user.user_id,
+              username: user.username,
+              role: user.role,
+            },
           });
         }
-      } else {
       }
     } catch (error) {
       setError("Error: Unable to log in.");

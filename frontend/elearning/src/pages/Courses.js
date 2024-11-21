@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import "./css/base/utilities.css";
 import "./css/Courses.css";
 import axios from "axios";
+import { useLocation } from "react-router-dom";
 const Courses = () => {
-  const [userRole] = useState("instructor");
+  const location = useLocation();
+  const role = location.user;
   const [courses, setCourses] = useState([]);
   const [enrolledCourses, setEnrolledCourses] = useState([]);
 
@@ -63,7 +65,7 @@ const Courses = () => {
             <h4>{course.name}</h4>
             <p>Description: {course.description}</p>
             <p>Instructor: {course.username}</p>
-            {userRole == "student" && (
+            {role == "student" && (
               <button
                 className="enroll-button"
                 onClick={() => handleEnroll(course.id)}
@@ -72,7 +74,7 @@ const Courses = () => {
               </button>
             )}
 
-            {userRole == "instructor" && (
+            {role == "instructor" && (
               <button
                 className="invite-button"
                 onClick={() => {
@@ -110,7 +112,7 @@ const Courses = () => {
         ))}
       </div>
 
-      {userRole == "student" && enrolledCourses.length > 0 && (
+      {role == "student" && enrolledCourses.length > 0 && (
         <div className="enrolled-container">
           <h4>Enrolled Courses</h4>
           {enrolledCourses.map((course) => (
