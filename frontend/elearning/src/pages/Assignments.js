@@ -17,13 +17,27 @@ const Assignments = ({ userRole }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    getAssignmentsFromEnrolled();
+    if (userType == "student") {
+      console.log("student");
+      getAssignmentsFromEnrolled();
+    } else {
+      console.log("instructor");
+      getAssignmentsFromGiven();
+    }
+
     getCourses();
   }, []);
 
   async function getAssignmentsFromEnrolled() {
     const response = await axios.get(
       `http://localhost:8080/e-learning/backend/student/get-assignments-enrolled.php?student_id=${3}`
+    );
+    setAssignments(response.data);
+  }
+
+  async function getAssignmentsFromGiven() {
+    const response = await axios.get(
+      `http://localhost:8080/e-learning/backend/instructor/get-assignments-given.php?instructor_id=${5}`
     );
     setAssignments(response.data);
   }
