@@ -2,10 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./css/base/utilities.css";
 import "./css/Courses.css";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
-const Courses = () => {
-  const location = useLocation();
-  const role = location.user;
+const Courses = ({ role }) => {
   const [courses, setCourses] = useState([]);
   const [enrolledCourses, setEnrolledCourses] = useState([]);
 

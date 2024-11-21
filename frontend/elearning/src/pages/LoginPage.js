@@ -104,19 +104,13 @@ const Register = () => {
         if (user.role == "admin") {
           navigate("/admin", {
             state: {
-              token: user.token,
-              user_id: user.user_id,
-              username: user.username,
-              role: user.role,
+              user,
             },
           });
         } else {
           navigate("/dashboard", {
-            user: {
-              token: user.token,
-              user_id: user.user_id,
-              username: user.username,
-              role: user.role,
+            state: {
+              user,
             },
           });
         }

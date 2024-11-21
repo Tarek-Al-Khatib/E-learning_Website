@@ -1,16 +1,19 @@
 import React, { useState } from "react";
 import Assignments from "./Assignments";
 import Courses from "./Courses";
+import { useLocation } from "react-router-dom";
 
 const Dashboard = () => {
   const userRole = "instructor";
+  const location = useLocation();
+  const user = location.state.user;
   const [section, setSection] = useState("courses");
 
   function content() {
     if (section === "assignments") {
-      return <Assignments userRole={userRole} />;
+      return <Assignments userRole={user.role} />;
     } else if (section === "courses") {
-      return <Courses userRole={userRole} />;
+      return <Courses userRole={user.role} />;
     } else {
       return (
         <div>
