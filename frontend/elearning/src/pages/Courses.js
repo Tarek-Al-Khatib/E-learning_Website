@@ -42,7 +42,13 @@ const Courses = ({ role, token }) => {
   const handleSubmit = async (courseid, email) => {
     const response = await axios.post(
       "http://localhost:8080/e-learning/backend/instructor/enroll-student-email.php",
-      JSON.stringify({ course_id: courseid, email: email })
+      JSON.stringify({ course_id: courseid, email: email }),
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token,
+        },
+      }
     );
 
     console.log(response.data);
