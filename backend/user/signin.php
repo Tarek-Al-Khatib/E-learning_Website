@@ -1,5 +1,9 @@
 <?php
 include "../connection.php"; 
+include "../jwt/secret_key.php";
+require "vendor/autoload.php";
+
+use Firebase\JWT\JWT;
 
 header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Headers: *");
@@ -25,12 +29,20 @@ if ($username && $password) {
             }
 
             if (password_verify($password, $user['password'])) {
+                $payload = [
+                    "user_id" => $user['id'],
+                    "role" => $user['role'],
+                    "status" => $user['status']
+                ];
+
+                $token  = JWT::encode($payload, $secretKey, "HS256");
                 echo json_encode([
                     "message" => "Sign-in successful",
                     "user_id" => $user['id'],
                     "username" => $user['username'],
                     "role" => $user['role'],
-                    "status" => $user['status']
+                    "status" => $user['status'],
+                    "access_token" => $token
                 ]);
             } else {
                 echo json_encode(["status" => "error", "message" => "Invalid password"]);
