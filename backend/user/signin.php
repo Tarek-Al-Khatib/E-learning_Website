@@ -1,7 +1,8 @@
 <?php
 include "../connection.php"; 
 include "../jwt/secret_key.php";
-require "vendor/autoload.php";
+
+require "../vendor/autoload.php";
 
 use Firebase\JWT\JWT;
 
@@ -23,7 +24,7 @@ if ($username && $password) {
 
         if ($result->num_rows > 0) {
             $user = $result->fetch_assoc();
-            if($user['status'] = 'banned') {
+            if($user['status'] != 'active') {
                 echo json_encode(["status" => "error", "message" => "You are banned"]);
                 return;
             }

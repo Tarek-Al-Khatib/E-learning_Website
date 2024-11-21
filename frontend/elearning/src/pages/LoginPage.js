@@ -90,10 +90,23 @@ const Register = () => {
         }
       );
 
-      if (response.data.status != "error") {
-        navigate("/admin");
+      const user = response.data;
+      console.log(user);
+      if (user.status != "banned") {
+        if (user.role == "admin")
+          navigate("/admin", {
+            token: user.token,
+            user_id: user.user_id,
+            username: user.username,
+            role: user.role,
+          });
       } else {
-        setError(response.data.message || "Invalid credentials.");
+        navigate("/dashboard", {
+          token: user.token,
+          user_id: user.user_id,
+          username: user.username,
+          role: user.role,
+        });
       }
     } catch (error) {
       setError("Error: Unable to log in.");
