@@ -19,6 +19,10 @@ if ($username && $password) {
 
         if ($result->num_rows > 0) {
             $user = $result->fetch_assoc();
+            if($user['status'] = 'banned') {
+                echo json_encode(["status" => "error", "message" => "You are banned"]);
+                return;
+            }
 
             if (password_verify($password, $user['password'])) {
                 echo json_encode([

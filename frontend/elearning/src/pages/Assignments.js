@@ -48,7 +48,7 @@ const Assignments = ({ userRole }) => {
         due_date: "",
         course_id: "",
       });
-      getAssignmentsFromEnrolled(); // Refresh the assignments list
+      getAssignmentsFromEnrolled();
     } catch (error) {
       console.error("Error creating assignment", error);
     }
@@ -84,7 +84,7 @@ const Assignments = ({ userRole }) => {
       </div>
 
       {userType === "instructor" && (
-        <div className="create-assignment">
+        <form onSubmit={handleCreateAssignment} className="form-container">
           <h3>Create Assignment</h3>
           <input
             type="text"
@@ -94,7 +94,8 @@ const Assignments = ({ userRole }) => {
               setNewAssignment({ ...newAssignment, title: e.target.value })
             }
           />
-          <textarea
+          <input
+            type="text"
             placeholder="Description"
             value={newAssignment.description}
             onChange={(e) =>
@@ -124,8 +125,10 @@ const Assignments = ({ userRole }) => {
               </option>
             ))}
           </select>
-          <button onClick={handleCreateAssignment}>Create Assignment</button>
-        </div>
+          <button type="submit" className="create-button button">
+            Create Assignment
+          </button>
+        </form>
       )}
     </div>
   );
