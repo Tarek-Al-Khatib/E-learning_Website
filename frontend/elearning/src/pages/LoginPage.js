@@ -62,10 +62,15 @@ const Register = () => {
         }
       );
 
-      if (response.data.status === "success") {
-        navigate("/admin");
-      } else {
-        setError(response.data.message || "Registration failed.");
+      const user = response.data;
+      console.log(user);
+      if (user.status != "banned") {
+        navigate("/dashboard", {
+          token: user.token,
+          user_id: user.user_id,
+          username: user.username,
+          role: user.role,
+        });
       }
     } catch (error) {
       setError("Error: Unable to register.");
@@ -93,20 +98,22 @@ const Register = () => {
       const user = response.data;
       console.log(user);
       if (user.status != "banned") {
-        if (user.role == "admin")
+        if (user.role == "admin") {
           navigate("/admin", {
             token: user.token,
             user_id: user.user_id,
             username: user.username,
             role: user.role,
           });
+        } else {
+          navigate("/dashboard", {
+            token: user.token,
+            user_id: user.user_id,
+            username: user.username,
+            role: user.role,
+          });
+        }
       } else {
-        navigate("/dashboard", {
-          token: user.token,
-          user_id: user.user_id,
-          username: user.username,
-          role: user.role,
-        });
       }
     } catch (error) {
       setError("Error: Unable to log in.");
